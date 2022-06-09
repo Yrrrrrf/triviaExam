@@ -11,6 +11,7 @@ import data.Questions;
 import java.awt.Dimension;
 import java.util.List;
 import java.awt.CardLayout;
+import java.awt.Color;
 
 public class UserInterface {
 
@@ -50,14 +51,15 @@ public class UserInterface {
           }
 
 
+
         // Set Icon
-        frame.setIconImage(new ImageIcon("src/img/icon_dragon.jfif").getImage());
+        frame.setIconImage(new ImageIcon("src/img/quiz_dude.jpg").getImage());
 
         // Set framePanel as the Original Card
         framePanel.setLayout(cardLayout);
         framePanel.setPreferredSize(new Dimension(width, height));
         // Add new Panels to the Original Card
-        framePanel.add(mainPanel, "MainMenu");        
+        framePanel.add(mainPanel, "MainMenu");
         // Set the initial panel that appears
         cardLayout.show(framePanel, "MainMenu");
         // Add the Original Panel (that will altern) into the frame

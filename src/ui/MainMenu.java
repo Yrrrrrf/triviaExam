@@ -71,7 +71,11 @@ public class MainMenu {
         frame.add(updateButton);
 
         JButton deleteButton = AuxiliarMethods.createImageButton("Delete", "src/img/Delete.png", 40, 40, "Arial", 14);
+<<<<<<< HEAD
         deleteButton.setBounds(560, 320, 120, 60);
+=======
+        deleteButton.setBounds(560, 340, 120, 60);
+>>>>>>> 03f575c83a082991c9297f1021350dbc5f4965a0
         deleteButton.addActionListener(e -> {
             workSpace.removeAll();
             deleteMenu();
