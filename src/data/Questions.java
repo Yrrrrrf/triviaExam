@@ -12,7 +12,6 @@ public class Questions {
     static ArrayList<Question> questionsList = loadQuestion();
     // static ArrayList<Question> questionsList = new ArrayList<Question>();
 
-
     /**
      * Saves the actual Questions class to be persistant in time.
      */
@@ -26,14 +25,14 @@ public class Questions {
             System.out.println("Successfully Object Saved");
         } catch (IOException e) {System.out.println(e);}
     }
-    
+
 
     /**
      * Load the data saved. Built the questions using the 
      */
     public static ArrayList<Question> loadQuestion()  {
         try {
-            FileInputStream fileInput = new FileInputStream("C:\\Users\\OutwardFire\\Documents\\UAEMex\\3° Semestre\\Paradigmas de Programación\\TriviaGameExam\\src\\data\\Questions.ser"); // file path
+            FileInputStream fileInput = new FileInputStream("src/data/Questions.ser"); // file path
             ObjectInputStream objectInput = new ObjectInputStream(fileInput); // data File
             questionsList = (ArrayList<Question>) objectInput.readObject(); // Instantiate the Object, casting the objetcInput
             fileInput.close();
@@ -58,7 +57,7 @@ public class Questions {
         return questionsList.get(index);
     }
 
-
+    // In terminal
     public static void showQuestions() {
         System.out.println(questionsList.size());
         for (int i = 0; i < questionsList.size(); i++) 
@@ -66,8 +65,20 @@ public class Questions {
     }
 
 
+    // Return all the questions form the same cathegory
+    public ArrayList<Question> getByCathegory(String cathegory) {
+        ArrayList<Question> questionsByCathegory = new ArrayList<Question>();
+        for (int i = 0; i < questionsList.size(); i++) {
+            if (cathegory.equals(questionsList.get(i).getCathegory())) {
+                questionsByCathegory.add(questionsList.get(i));
+            }
+        }
+        return questionsByCathegory;
+    }
+
+
     public static void main(String[] args) {
         // saveLeaderboard();
         // loadLeaderboard();
     }
-}
+}       

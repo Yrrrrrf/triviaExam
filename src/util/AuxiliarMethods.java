@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.util.ArrayList;
 import java.awt.GridLayout;
 
 import javax.swing.ImageIcon;
@@ -101,10 +102,16 @@ public class AuxiliarMethods {
         return textField; // just if is necessary to get the written data
     }
 
-    public static JComboBox<String> createComboBox(JPanel frame,String askedValue ,int posX, int posY, boolean isVertical, String[] values) {
+    public static JComboBox<String> createComboBox(JPanel frame,String askedValue ,int posX, int posY, boolean isVertical, ArrayList <String> arrayList) {
         JComboBox<String> comboBox = new JComboBox<String>();
         JLabel label = new JLabel(askedValue);
-        for (int i = 0; i < values.length; i++) comboBox.addItem(values[i]);
+
+        
+        String[] values = new String[arrayList.size()];
+        for (int i = 0; i < values.length; i++) {
+            values[i] = arrayList.get(i);
+        }
+         for (int i = 0; i < values.length; i++) comboBox.addItem(values[i]);
         comboBox.setBounds(posX, posY, 128, 32);
         comboBox.setBackground(Color.DARK_GRAY);
         comboBox.setForeground(Color.WHITE);
