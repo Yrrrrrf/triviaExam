@@ -39,7 +39,7 @@ public class MainMenu {
         
 
         // JButton createButton = AuxiliarMethods.createImageButton("Create", "", 40, 20, "Arial", 14);
-        JButton createButton = AuxiliarMethods.createImageButton("Create", "src/img/Create.png", 40, 20, "Arial", 14);
+        JButton createButton = AuxiliarMethods.createImageButton("Create", "src/img/Create.png", 40, 40, "Arial", 14);
         createButton.setBounds(560, 80, 120, 60);
         createButton.addActionListener(e -> {
             workSpace.removeAll();
