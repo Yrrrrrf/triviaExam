@@ -4,14 +4,11 @@ import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalLookAndFeel;
-
 import data.Question;
 import data.Questions;
-
 import java.awt.Dimension;
 import java.util.List;
 import java.awt.CardLayout;
-import java.awt.Color;
 
 public class UserInterface {
 

@@ -105,8 +105,6 @@ public class AuxiliarMethods {
     public static JComboBox<String> createComboBox(JPanel frame,String askedValue ,int posX, int posY, boolean isVertical, ArrayList <String> arrayList) {
         JComboBox<String> comboBox = new JComboBox<String>();
         JLabel label = new JLabel(askedValue);
-
-        
         String[] values = new String[arrayList.size()];
         for (int i = 0; i < values.length; i++) {
             values[i] = arrayList.get(i);
@@ -125,8 +123,6 @@ public class AuxiliarMethods {
             label.setBounds(posX - 80, posY + 4, 100, 20);
             comboBox.setBounds(posX + 40, posY, 240, 32);
         }
-       
-        
         frame.add(label);
         frame.add(comboBox);
         
