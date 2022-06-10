@@ -11,27 +11,20 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import ui.UserInterface;
-
+  
 public class AuxiliarMethods {
-    // Create 
-    public static JLabel setMainImage(JPanel frame, int posX, int posY) {
-        JLabel imageLabel = AuxiliarMethods.createImageLabel("", "src/img/books.png", 200, 200);
-        imageLabel.setFont(new Font("Segoe UI", Font.BOLD, 28));
-        imageLabel.setIconTextGap(-16);
-        imageLabel.setBounds(posX, posY, 320, 240);
-        frame.add(imageLabel);
-        return imageLabel;
-    }
+    
 
-
-    // Create a JTextField with the given text
+    /**
+     * Create a JTextField with the given text
+     * @param text String
+     * @param posX int 
+     * @param posY int
+     * @return JLabel
+     */
     public static JLabel createLabel(String text, int posX, int posY) {
         JLabel label = new JLabel(text);
         label.setPreferredSize(new Dimension(120, 40));
@@ -41,7 +34,12 @@ public class AuxiliarMethods {
         return label;
     }
 
-    // Create a JTextField with text parameter as the default text inside
+    /**
+     * 
+     * Create a JTextField with text parameter as the default text inside
+     * @param text String
+     * @return JTextFiel
+     */
     public static JTextField createTextField(String text) {
         JTextField textField = new JTextField();
         textField.setText(text);
@@ -55,12 +53,25 @@ public class AuxiliarMethods {
         return textField;
     }
 
-    // rezise an Image to the given size
+    /**
+     * Rezise an Image to the given size
+     * @param path String
+     * @param width int 
+     * @param height int 
+     * @return ImagenIcon
+     */
     public static ImageIcon resizedImage(String path, int width, int height) {
         return new ImageIcon(new ImageIcon(path).getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
     }
 
-    // Create a JLabel with an image(with given width & height)
+    /**
+     * Create a JLabel with an image(with given width & height)
+     * @param text String
+     * @param path String 
+     * @param imageWidth int 
+     * @param imageHeight int
+     * @return JLabel
+     */
     public static JLabel createImageLabel(String text, String path, int imageWidth, int imageHeight) {
         JLabel imageLabel = createLabel(text, imageHeight, imageHeight);
         ImageIcon image = resizedImage(path, imageWidth, imageHeight);
@@ -70,11 +81,18 @@ public class AuxiliarMethods {
         return imageLabel;
     }
 
-    // Creates a button with image 
+    /**
+     * Creates a button with image 
+     * @param text String
+     * @param path String
+     * @param imageWidth int 
+     * @param imageHeight int 
+     * @param font String 
+     * @param sizefont int 
+     * @return JButton
+     */
     public static JButton createImageButton(String text, String path, int imageWidth, int imageHeight, String font, int sizefont) {
         JButton button = new JButton();
-       
-
         button.add(createImageLabel(text,path, imageWidth, imageHeight));
         button.setFont(new Font(font, Font.PLAIN,sizefont));
         button.setForeground(Color.BLACK);
@@ -84,7 +102,17 @@ public class AuxiliarMethods {
         return button;
     }
 
-    // Creates a complete Ask Field. Can be Horizontal or Vertical
+    /**
+     * Creates a complete Ask Field. Can be Horizontal or Vertical
+     * <p>
+     * Just if is necessary to get the written data
+     * @param panel JPanel
+     * @param askedValue String
+     * @param posX int 
+     * @param posY int 
+     * @param isVertical boolean
+     * @return JTextField
+     */
     public static JTextField createAskField(JPanel panel, String askedValue, int posX, int posY, boolean isVertical) {
         JLabel label = createLabel(askedValue, posY, posY);
         JTextField textField = createTextField("");
@@ -99,19 +127,25 @@ public class AuxiliarMethods {
         }
         panel.add(label);
         panel.add(textField);
-        return textField; // just if is necessary to get the written data
+        return textField; 
     }
 
+    /**
+     * Create a complete combo Box,  
+     * @param frame JPanel
+     * @param askedValue String 
+     * @param posX int 
+     * @param posY int 
+     * @param isVertical boolean 
+     * @param arrayList ArrayList<String>
+     * @return JComboBox<String>
+     */
     public static JComboBox<String> createComboBox(JPanel frame,String askedValue ,int posX, int posY, boolean isVertical, ArrayList <String> arrayList) {
         JComboBox<String> comboBox = new JComboBox<String>();
         JLabel label = new JLabel(askedValue);
-
-        
         String[] values = new String[arrayList.size()];
-        for (int i = 0; i < values.length; i++) {
-            values[i] = arrayList.get(i);
-        }
-         for (int i = 0; i < values.length; i++) comboBox.addItem(values[i]);
+        for (int i = 0; i < values.length; i++) values[i] = arrayList.get(i);
+        for (int i = 0; i < values.length; i++) comboBox.addItem(values[i]);
         comboBox.setBounds(posX, posY, 128, 32);
         comboBox.setBackground(Color.DARK_GRAY);
         comboBox.setForeground(Color.WHITE);
@@ -125,65 +159,9 @@ public class AuxiliarMethods {
             label.setBounds(posX - 80, posY + 4, 100, 20);
             comboBox.setBounds(posX + 40, posY, 240, 32);
         }
-       
-        
         frame.add(label);
         frame.add(comboBox);
         
         return comboBox;
-    }
-
-   /*  public static JComboBox<Integer> createComboBox(JPanel frame, int posX, int posY, int minValue, int maxValue) {
-        JComboBox<Integer> comboBox = new JComboBox<Integer>();
-        for (int i = minValue; i <= maxValue; i++) comboBox.addItem(i);
-        comboBox.setBounds(posX, posY, 60, 32);
-        comboBox.setBackground(Color.DARK_GRAY);
-        comboBox.setForeground(Color.WHITE);
-        comboBox.addActionListener(e -> comboBox.getSelectedItem());
-        frame.add(comboBox);
-        return comboBox;
-    }
-     */
-    
-
-
-    public static JLabel createAlertLabel(String alertMessage, JPanel frame, int posX, int posY) {
-        JLabel alertLabel = AuxiliarMethods.createLabel(alertMessage, posY, posY);
-        alertLabel.setForeground(Color.RED);
-        alertLabel.setFont(new Font("Cambria", Font.BOLD, 16));
-        alertLabel.setBounds(posX, posY, 240, 20);
-        frame.add(alertLabel);
-        frame.repaint();
-        return alertLabel;
-    }
-
-    // User's menu
-    public static void createUserMenu() {
-        // Set this labels menu bar
-        JMenuBar menuBar = new JMenuBar();
-        UserInterface.frame.setJMenuBar(menuBar);
-        // Menu Bar
-        JMenu optionsMenu = new JMenu("Options");
-        menuBar.add(optionsMenu);
-        // JMenu Bar Item
-        JMenuItem signOut  = new JMenuItem("Sign Out");
-        signOut.addActionListener(e -> {
-            UserInterface.cardLayout.show(UserInterface.framePanel, "Login");
-            UserInterface.frame.setJMenuBar(null);
-        });
-        signOut.setIcon(AuxiliarMethods.resizedImage("src/img/exit.png",24, 24));
-        optionsMenu.add(signOut);
-    }
-
-    // Create a JComboBox to add some selectable options inside
-    public static JLabel comboBoxLabel(JPanel frame, String text, int posX, int posY) {
-        JLabel label = new JLabel(text);
-        label.setPreferredSize(new Dimension(120, 80));
-        label.setBounds(posX, posY, 120, 80);
-        label.setHorizontalAlignment(JLabel.CENTER);
-        label.setVerticalAlignment(JLabel.CENTER);
-        frame.add(label);
-
-        return label;
     }
 }

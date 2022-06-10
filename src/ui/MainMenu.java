@@ -1,44 +1,48 @@
 package ui;
 
-import javax.swing.*;
-
-import data.Question;
-import data.Questions;
-import util.AuxiliarMethods;
-
-import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.TableColumn;
+import data.Question;
+import data.Questions;
+import test.ButtonColumn;
+import util.AuxiliarMethods;
 
+/**
+ * 
+ */
 public class MainMenu {
-    
-    ArrayList<String> arrayTopics = new ArrayList<String>();
-    ArrayList<String> arrayCategory = new ArrayList<String>();
 
+    ArrayList<String> arrayTopics = Questions.getTopics();
+    ArrayList<String> arrayCategory = Questions.getCathegories();
     JPanel workSpace = new JPanel();
- 
+
+
     /**
      * Create all the components of the Main Menu & add it to the frame
      * @param frame JPanel in which the elements will be painted
      */
     public MainMenu(JPanel frame) {
-
-      
-
         UserInterface.frame.setJMenuBar(null);
         // frame.setLayout(null);
         frame.setLayout(null);
         JLayeredPane layeredPane = new JLayeredPane();
         frame.add(layeredPane);
-
         workSpace.setLayout(null);
         workSpace.setBounds(20, 20, 520, 420);
         frame.add(workSpace);
 
-        
-
-        // JButton createButton = AuxiliarMethods.createImageButton("Create", "", 40, 20, "Arial", 14);
         JButton createButton = AuxiliarMethods.createImageButton("Create", "src/img/Create.png", 40, 40, "Arial", 14);
         createButton.setBounds(560, 80, 120, 60);
         createButton.addActionListener(e -> {
@@ -46,11 +50,7 @@ public class MainMenu {
             createMenu();       
             workSpace.repaint();
         });
-
         frame.add(createButton); 
-
-        
-        
 
         JButton readButton = AuxiliarMethods.createImageButton("Read", "src/img/Read.png", 40, 40, "Arial", 14);
         readButton.setBounds(560, 160, 120, 60);
@@ -71,57 +71,50 @@ public class MainMenu {
         frame.add(updateButton);
 
         JButton deleteButton = AuxiliarMethods.createImageButton("Delete", "src/img/Delete.png", 40, 40, "Arial", 14);
-<<<<<<< HEAD
         deleteButton.setBounds(560, 320, 120, 60);
-=======
-        deleteButton.setBounds(560, 340, 120, 60);
->>>>>>> 03f575c83a082991c9297f1021350dbc5f4965a0
         deleteButton.addActionListener(e -> {
             workSpace.removeAll();
             deleteMenu();
             workSpace.repaint();
         });
         frame.add(deleteButton);
-
     }
 
-
-
-
+    /**
+     * Load create menu in 
+     */
     private void createMenu() {
-        
-
-        // AuxiliarMethods.createComboBox(workSpace,"Topic" , 120, 140, arrayTopics);
-        AuxiliarMethods.createComboBox(workSpace,"Category", 80, 140,false, arrayTopics);
-        AuxiliarMethods.createComboBox(workSpace,"Topic", 80, 180,false, arrayCategory);
-        AuxiliarMethods.createAskField(workSpace, "Question:", 80, 220, false);
-        AuxiliarMethods.createAskField(workSpace, "Correct Answer:", 80, 260, false);
+        JComboBox comboBoxTopic = AuxiliarMethods.createComboBox(workSpace,"Topic", 80, 140,false, arrayTopics);
+        JComboBox comboBoxCategory =AuxiliarMethods.createComboBox(workSpace,"Category", 80, 180,false, arrayCategory);
+        JTextField textQuestion = AuxiliarMethods.createAskField(workSpace, "Question:", 80, 220, false);
+        JTextField textCategory = AuxiliarMethods.createAskField(workSpace, "Correct Answer:", 80, 260, false);
  
-
-        JButton addCategoryorTopicButton = new JButton("Add categories");
-        addCategoryorTopicButton.setBounds(400, 35, 120, 30);
-        addCategoryorTopicButton.addActionListener(e -> {
-            addCategoriasMenu();     
+        JButton addCategoryTopicButton = new JButton("Add categories");
+        addCategoryTopicButton.setBounds(400, 35, 120, 30);
+        addCategoryTopicButton.addActionListener(e -> {
+            addCategoriesMenu();     
             workSpace.repaint();
         });
+        workSpace.add(addCategoryTopicButton);
 
-
-        JButton saveButton = new JButton("Save");
+        JButton saveButton = new JButton("Add");
         saveButton.setBounds(160, 340, 120, 40);
         saveButton.addActionListener(e -> {
+            Question q = new Question(textQuestion.getText(), textCategory.getText(), comboBoxTopic.getSelectedItem().toString(), comboBoxCategory.getSelectedItem().toString());
+            Questions.addQuestion(q);
             Questions.saveQuestions();
-        });
-        
-        workSpace.add(addCategoryorTopicButton);
+         });        
         workSpace.add(saveButton);
     }
     
-    private void addCategoriasMenu() {   
-        
+    /**
+     * Add categories to add topics and categories
+     */
+    private void addCategoriesMenu() {
         JTextField textTopic=  AuxiliarMethods.createAskField(workSpace, "Topic", 40, 10, false);
         JTextField textCategory = AuxiliarMethods.createAskField(workSpace, "Category", 40, 60, false);
 
-        JButton addTopicButton = new JButton("add");
+        JButton addTopicButton = new JButton("Add");
         addTopicButton.setBounds(320, 10, 60, 30);
         addTopicButton.addActionListener(e -> {   
             arrayTopics.add(textTopic.getText());
@@ -130,6 +123,8 @@ public class MainMenu {
             workSpace.repaint();
 
         });
+        workSpace.add(addTopicButton);
+
         JButton addCategorysButton = new JButton("add");
         addCategorysButton.setBounds(320, 60,60, 30);
         addCategorysButton.addActionListener(e -> {
@@ -138,25 +133,98 @@ public class MainMenu {
             createMenu();
             workSpace.repaint();
         });
-        workSpace.add(addTopicButton);
         workSpace.add(addCategorysButton);
     }
 
+    /**
+     * Read data from question table in read menu 
+     */
     private void readMenu() {
-
-
+        String[] Arrayquestion = {"Question", "Answer"};
+        JTable questionsTable = new JTable (Questions.showQuestions(),Arrayquestion); 
+        questionsTable.setRowHeight(32);
+        JScrollPane questiScrollPane = new JScrollPane(questionsTable);
+        questiScrollPane.setBounds(20, 20, 400, 400);
+        workSpace.add(questiScrollPane);
     }
 
+    /**
+     * Update menu to replace topic, category, question and answer (old to new)  
+     */
     private void updateMenu() {
+        JComboBox arrayQuestions = AuxiliarMethods.createComboBox(workSpace, "Questions", 40, 120, false, Questions.getArrayListStrings());
+        arrayQuestions.setBounds(80, 120,300,32);
+        workSpace.add(arrayQuestions);
+        JButton addEditButton = new JButton("Edit");
+        addEditButton.setBounds(390, 120,60, 30);
+       
+            
+        
+        addEditButton.addActionListener(e -> {
+            try {
+                workSpace.removeAll();
+                JComboBox comboBoxQuestion = AuxiliarMethods.createComboBox(workSpace,"Topic", 80, 50,false, arrayTopics);
+                JComboBox comboBoxAnswer =AuxiliarMethods.createComboBox(workSpace,"Category", 80, 100,false, arrayCategory);
+                Integer index = Questions.getCuestionIndex((String)arrayQuestions.getSelectedItem());
+                JTextField textFieldQuestion = AuxiliarMethods.createAskField(workSpace, "Question", 50, 150, false);
+                JTextField textFieldAnswer = AuxiliarMethods.createAskField(workSpace, "Answer", 50, 200, false);
+                comboBoxAnswer.setSelectedItem(Questions.loadQuestion().get(index).getCorrectAnswer());
+                comboBoxQuestion.setSelectedItem(Questions.loadQuestion().get(index).getQuestion());
+    
+                textFieldQuestion.setText(Questions.loadQuestion().get(index).getQuestion());
+                textFieldAnswer.setText(Questions.loadQuestion().get(index).getCorrectAnswer());
+                
+                JButton saveButton = new JButton("Save");
+                saveButton.setBounds(160, 340, 120, 40);
+                saveButton.addActionListener(i -> {
+                    
+                Question q = new Question(textFieldQuestion.getText(), textFieldAnswer.getText(), comboBoxAnswer.getSelectedItem().toString(), comboBoxQuestion.getSelectedItem().toString());
+                Questions.replaceQuestion(index, q);
+                Questions.saveQuestions();
+                workSpace.add(textFieldQuestion);
+                workSpace.add(textFieldAnswer);
+                workSpace.add(comboBoxQuestion);
+                workSpace.add(comboBoxAnswer);
+                workSpace.add(saveButton);
+                
+             }); 
+            } catch (Exception i) {
+               JOptionPane.showMessageDialog(null, "Is necessary add a one question at least");
+               workSpace.removeAll();
+               createMenu();
+            }
+    });
 
-
+        workSpace.add(addEditButton);
     }
 
+
+    /**
+     * Table action Performed method (used below in the ButtonColumn)
+     * Add the Button Column to the table
+     * Remove questions and answers from table 
+     */
     private void deleteMenu() {
+        String[] Arrayquestion = {"Question", "Answer"};
+        JTable questionsTable = new JTable (Questions.showQuestions(),Arrayquestion); 
+        // System.out.println(Questions.getCathegories());
+        questionsTable.setRowHeight(32);
 
-
+        questionsTable.addColumn(new TableColumn());
+        Action tableButtonAction = new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                JTable table = (JTable) e.getSource();
+                Questions.removeQuestion((String)table.getValueAt(table.getSelectedRow(), 2));
+                workSpace.removeAll();
+                deleteMenu();
+                workSpace.repaint();
+                Questions.saveQuestions();
+            }
+        };
+        new ButtonColumn(questionsTable, tableButtonAction, 2);
+        questionsTable.getColumnModel().getColumn(2).setHeaderValue("Delete");
+        JScrollPane questiScrollPane = new JScrollPane(questionsTable);
+        questiScrollPane.setBounds(20, 20, 400, 400);
+        workSpace.add(questiScrollPane);
     }
-
-
-
 }

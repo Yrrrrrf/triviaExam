@@ -1,7 +1,18 @@
 import ui.UserInterface;
 
+/**
+ * @author 
+ * Los galactics
+ */
+
+
 public class Main {
-    public static void main(String[] args) throws Exception {
+
+    /**
+     * Call user interface method main
+     */
+    public static void main(String[] args)  {
         UserInterface.main(args);
     }
+    
 }

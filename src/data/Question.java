@@ -10,6 +10,11 @@ public class Question implements Serializable {
     private String topic;
 
 
+    public void Questionscheck(){
+        System.out.println("Question" +question  + " " + "Correct Answer" + correctAnswer);
+    }
+
+
     public Question(String question, String correctAnswer, String cathegory, String topic) {
         this.question = question;
         this.correctAnswer = correctAnswer;

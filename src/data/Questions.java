@@ -3,8 +3,6 @@ package data;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -13,14 +11,14 @@ import java.io.ObjectOutputStream;
 public class Questions {
 
     static ArrayList<Question> questionsList = loadQuestion();
-    // static ArrayList<Question> questionsList = new ArrayList<Question>();
+
 
     /**
      * Saves the actual Questions class to be persistant in time.
      */
     public static void saveQuestions() {
         try {
-            FileOutputStream fileOut = new FileOutputStream("src/data/Questions.ser"); // file path
+            FileOutputStream fileOut = new FileOutputStream("src/data/Questions.bin"); // file path
             ObjectOutputStream objectOut = new ObjectOutputStream(fileOut); // file Out
             objectOut.writeObject(questionsList); // Write object's data in the file
             objectOut.close();
@@ -35,57 +33,93 @@ public class Questions {
      */
     public static ArrayList<Question> loadQuestion()  {
         try {
-            FileInputStream fileInput = new FileInputStream("src/data/Questions.ser"); // file path
+            FileInputStream fileInput = new FileInputStream("src/data/Questions.bin"); // file path
             ObjectInputStream objectInput = new ObjectInputStream(fileInput); // data File
             questionsList = (ArrayList<Question>) objectInput.readObject(); // Instantiate the Object, casting the objetcInput
             fileInput.close();
             objectInput.close();
-            System.out.println("Questions Loaded Succesfully");
+            // System.out.println("Questions Loaded Succesfully");
         } catch (IOException | ClassNotFoundException e) {System.out.println(e);}
         return questionsList;
     }
 
-
+    /**
+     * 
+     * @param question
+     */
     public static void addQuestion(Question question) {
         questionsList.add(question);
+        System.out.println("Appropriately Added");
     }
 
 
-    public static void removeQuestion(Question question) {
-        questionsList.remove(question);
+    public static void removeQuestion(String question) {
+        for (int i = 0; i < questionsList.size(); i++)
+            if (questionsList.get(i).getQuestion().equals(question)) {
+                questionsList.remove(questionsList.get(i));
+                break;
+            }
     }
-    
-    
-    public static Question getuestionAt(int index) {
-        return questionsList.get(index);
+
+
+    public static void replaceQuestion(int index, Question question) {
+        questionsList.remove(index);
+        questionsList.add(index, question);
     }
+
+    
+    public static int getCuestionIndex(String questionText) {
+        for (int i = 0; i < questionsList.size(); i++)
+            if (questionsList.get(i).getQuestion().equals(questionText))
+                return i;
+          return (Integer) null;
+    }
+
+
+    public static ArrayList<String> getArrayListStrings() {
+        ArrayList<String> questionsTexts = new ArrayList<String>();
+        for (int i = 0; i < questionsList.size(); i++)
+            questionsTexts.add(questionsList.get(i).getQuestion());
+        return questionsTexts;
+    }
+
 
     // In terminal
-    public static void showQuestions() {
-        System.out.println(questionsList.size());
-        for (int i = 0; i < questionsList.size(); i++) 
-            System.out.println(Questions.getuestionAt(i).toString());
+    public static String[][] showQuestions() {
+        String[][] questionsArray = new String[questionsList.size()][2];
+        for (int i = 0; i < questionsList.size(); i++){
+            questionsArray[i][0] = questionsList.get(i).getQuestion();
+            questionsArray[i][1] = questionsList.get(i).getCorrectAnswer();
+        }
+        return questionsArray;
     }
 
 
-<<<<<<< HEAD
-=======
     // Return all the questions form the same cathegory
     public ArrayList<Question> getByCathegory(String cathegory) {
         ArrayList<Question> questionsByCathegory = new ArrayList<Question>();
-        for (int i = 0; i < questionsList.size(); i++) {
-            if (cathegory.equals(questionsList.get(i).getCathegory())) {
+        for (int i = 0; i < questionsList.size(); i++)
+            if (cathegory.equals(questionsList.get(i).getCathegory()))
                 questionsByCathegory.add(questionsList.get(i));
-            }
-        }
         return questionsByCathegory;
     }
 
->>>>>>> 03f575c83a082991c9297f1021350dbc5f4965a0
 
-    public static void main(String[] args) {
-        // saveLeaderboard();
-        // loadLeaderboard();
-        // comparateQuestion();
+    // Return all the questions form the same cathegory
+    public static ArrayList<String> getCathegories() {
+        ArrayList<String> cathegories = new ArrayList<String>();
+        for (int i = 0; i < questionsList.size(); i++)
+            if (cathegories.contains(questionsList.get(i).getCathegory())) continue;
+                else cathegories.add(questionsList.get(i).getCathegory());
+        return cathegories;
+    }
+
+
+    public static ArrayList<String> getTopics() {
+        ArrayList<String> topics = new ArrayList<String>();
+        for (int i = 0; i < questionsList.size(); i++)
+            if (topics.contains(questionsList.get(i).getTopic())) continue;
+            else topics.add(questionsList.get(i).getTopic());
+        return topics;
     }
 }       
