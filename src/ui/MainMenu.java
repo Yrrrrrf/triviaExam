@@ -34,6 +34,7 @@ public class MainMenu {
      * @param frame JPanel in which the elements will be painted
      */
     public MainMenu(JPanel frame) {
+        System.out.println("Hola");
         UserInterface.frame.setJMenuBar(null);
         // frame.setLayout(null);
         frame.setLayout(null);
@@ -189,7 +190,7 @@ public class MainMenu {
                 
              }); 
             } catch (Exception i) {
-               JOptionPane.showMessageDialog(null, "Is necessary add a one question at least");
+               JOptionPane.showMessageDialog(null, "At least one question needs to be added");
                workSpace.removeAll();
                createMenu();
             }
