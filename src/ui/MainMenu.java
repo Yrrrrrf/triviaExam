@@ -180,7 +180,8 @@ public class MainMenu {
         workSpace.add(arrayQuestions);
         JButton addEditButton = new JButton("Edit");
         addEditButton.setBounds(390, 120,60, 30);
-       
+        JButton saveButton = new JButton("Save");
+        saveButton.setBounds(160, 340, 120, 40);
             
         
         addEditButton.addActionListener(e -> {
@@ -199,8 +200,7 @@ public class MainMenu {
                 textFieldQuestion.setText(Questions.loadQuestion().get(index).getQuestion());
                 textFieldAnswer.setText(Questions.loadQuestion().get(index).getCorrectAnswer());
                 
-                JButton saveButton = new JButton("Save");
-                saveButton.setBounds(160, 340, 120, 40);
+                
                 saveButton.addActionListener(i -> {
                     
                 Question q = new Question(textFieldQuestion.getText(), textFieldAnswer.getText(), comboBoxAnswer.getSelectedItem().toString(), comboBoxQuestion.getSelectedItem().toString());
