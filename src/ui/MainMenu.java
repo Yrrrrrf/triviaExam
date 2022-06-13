@@ -187,6 +187,7 @@ public class MainMenu {
             try {
                 workSpace.removeAll();
                  workSpace.repaint();
+                 workSpace.add(saveButton);
                 JComboBox comboBoxQuestion = AuxiliarMethods.createComboBox(workSpace,"Topic", 80, 50,false, arrayTopics);
                 JComboBox comboBoxAnswer =AuxiliarMethods.createComboBox(workSpace,"Category", 80, 100,false, arrayCategory);
                 Integer index = Questions.getCuestionIndex((String)arrayQuestions.getSelectedItem());
