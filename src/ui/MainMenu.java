@@ -16,12 +16,9 @@ import javax.swing.JTextField;
 import javax.swing.table.TableColumn;
 import data.Question;
 import data.Questions;
-import test.ButtonColumn;
 import util.AuxiliarMethods;
+import util.ButtonColumn;
 
-/**
- * 
- */
 public class MainMenu {
 
     ArrayList<String> arrayTopics = Questions.getTopics();
@@ -36,7 +33,6 @@ public class MainMenu {
     public MainMenu(JPanel frame) {
         System.out.println("Hola");
         UserInterface.frame.setJMenuBar(null);
-        // frame.setLayout(null);
         frame.setLayout(null);
         JLayeredPane layeredPane = new JLayeredPane();
         frame.add(layeredPane);
@@ -82,11 +78,11 @@ public class MainMenu {
     }
 
     /**
-     * Load create menu in 
+     * Load create menu
      */
     private void createMenu() {
-        JComboBox comboBoxTopic = AuxiliarMethods.createComboBox(workSpace,"Topic", 80, 140,false, arrayTopics);
-        JComboBox comboBoxCategory =AuxiliarMethods.createComboBox(workSpace,"Category", 80, 180,false, arrayCategory);
+        JComboBox<String> comboBoxTopic = AuxiliarMethods.createComboBox(workSpace,"Topic", 80, 140,false, arrayTopics);
+        JComboBox<String> comboBoxCategory =AuxiliarMethods.createComboBox(workSpace,"Category", 80, 180,false, arrayCategory);
         JTextField textQuestion = AuxiliarMethods.createAskField(workSpace, "Question:", 80, 220, false);
         JTextField textCategory = AuxiliarMethods.createAskField(workSpace, "Correct Answer:", 80, 260, false);
  
@@ -103,11 +99,9 @@ public class MainMenu {
         saveButton.addActionListener(e -> {
             String question = textCategory.getText();
             String correct = textCategory.getText();
-            if(question.isEmpty() == true){
-                JOptionPane.showMessageDialog(null, "Is not posible create a empty question");
-            }if(correct.isEmpty()== true){
-                JOptionPane.showMessageDialog(null, "Is not posible create a empty empty correct answer");
-            }else{
+            if (question.isEmpty() == true) JOptionPane.showMessageDialog(null, "Is not posible create a empty question");
+            if (correct.isEmpty() == true) JOptionPane.showMessageDialog(null, "Is not posible create an empty correct answer");
+            else {
                 Question q = new Question(textQuestion.getText(), textCategory.getText(), comboBoxTopic.getSelectedItem().toString(), comboBoxCategory.getSelectedItem().toString());
                 Questions.addQuestion(q);
                 Questions.saveQuestions();
@@ -115,12 +109,11 @@ public class MainMenu {
                 workSpace.removeAll();
                 workSpace.repaint();
             }
-            
-          
          });        
         workSpace.add(saveButton);
     }
-    
+
+
     /**
      * Add categories to add topics and categories
      */
@@ -132,9 +125,8 @@ public class MainMenu {
         addTopicButton.setBounds(320, 10, 60, 30);
         addTopicButton.addActionListener(e -> {   
             String a =textTopic.getText();
-            if (a.isEmpty()== true){
-                JOptionPane.showMessageDialog(null, "Is not posible sabe a empty topic");
-            }else{
+            if (a.isEmpty()== true) JOptionPane.showMessageDialog(null, "Isn't posible save an empty topic");
+            else {
                 arrayTopics.add(textTopic.getText());
                 workSpace.removeAll();
                 createMenu();
@@ -147,9 +139,8 @@ public class MainMenu {
         addCategorysButton.setBounds(320, 60,60, 30);
         addCategorysButton.addActionListener(e -> {
             String a =textCategory.getText();
-            if (a.isEmpty()== true){
-                JOptionPane.showMessageDialog(null, "Is not posible sabe a empty category");
-            }else{
+            if (a.isEmpty() == true) JOptionPane.showMessageDialog(null, "Isn't posible save an empty category");
+            else {
                 arrayCategory.add(textCategory.getText());
                 workSpace.removeAll();
                 createMenu();
@@ -158,6 +149,7 @@ public class MainMenu {
         });
         workSpace.add(addCategorysButton);
     }
+
 
     /**
      * Read data from question table in read menu 
@@ -175,58 +167,56 @@ public class MainMenu {
      * Update menu to replace topic, category, question and answer (old to new)  
      */
     private void updateMenu() {
-        JComboBox arrayQuestions = AuxiliarMethods.createComboBox(workSpace, "Questions", 40, 120, false, Questions.getArrayListStrings());
+        JComboBox<String> arrayQuestions = AuxiliarMethods.createComboBox(workSpace, "Questions", 40, 120, false, Questions.getArrayListStrings());
         arrayQuestions.setBounds(80, 120,300,32);
         workSpace.add(arrayQuestions);
+
         JButton addEditButton = new JButton("Edit");
         addEditButton.setBounds(390, 120,60, 30);
         JButton saveButton = new JButton("Save");
         saveButton.setBounds(160, 340, 120, 40);
-            
-        
         addEditButton.addActionListener(e -> {
-            try {
-                workSpace.removeAll();
-                 workSpace.repaint();
-                 workSpace.add(saveButton);
-                JComboBox comboBoxQuestion = AuxiliarMethods.createComboBox(workSpace,"Topic", 80, 50,false, arrayTopics);
-                JComboBox comboBoxAnswer =AuxiliarMethods.createComboBox(workSpace,"Category", 80, 100,false, arrayCategory);
-                Integer index = Questions.getCuestionIndex((String)arrayQuestions.getSelectedItem());
-                JTextField textFieldQuestion = AuxiliarMethods.createAskField(workSpace, "Question", 50, 150, false);
-                JTextField textFieldAnswer = AuxiliarMethods.createAskField(workSpace, "Answer", 50, 200, false);
-                comboBoxAnswer.setSelectedItem(Questions.loadQuestion().get(index).getCorrectAnswer());
-                comboBoxQuestion.setSelectedItem(Questions.loadQuestion().get(index).getQuestion());
+            switch (Questions.getArrayListStrings().size()) {
+                case 0: // If there's no questions in the list
+                    JOptionPane.showMessageDialog(null, "Is necessary to have at least one question to edit it");
+                    workSpace.removeAll();
+                    createMenu();
+                    break;
+                default: // If there's at least 1 question in the list
+                    workSpace.removeAll();
+                    workSpace.repaint();
+                    workSpace.add(saveButton);
+                    JComboBox<String> comboBoxQuestion = AuxiliarMethods.createComboBox(workSpace,"Topic", 80, 50,false, arrayTopics);
+                    JComboBox<String> comboBoxAnswer =AuxiliarMethods.createComboBox(workSpace,"Category", 80, 100,false, arrayCategory);
+                    Integer index = Questions.getCuestionIndex((String)arrayQuestions.getSelectedItem());
+                    JTextField textFieldQuestion = AuxiliarMethods.createAskField(workSpace, "Question", 50, 150, false);
+                    JTextField textFieldAnswer = AuxiliarMethods.createAskField(workSpace, "Answer", 50, 200, false);
+                    comboBoxAnswer.setSelectedItem(Questions.loadQuestion().get(index).getCorrectAnswer());
+                    comboBoxQuestion.setSelectedItem(Questions.loadQuestion().get(index).getQuestion());
     
-                textFieldQuestion.setText(Questions.loadQuestion().get(index).getQuestion());
-                textFieldAnswer.setText(Questions.loadQuestion().get(index).getCorrectAnswer());
-                
-                
-                saveButton.addActionListener(i -> {
-                    
-                Question q = new Question(textFieldQuestion.getText(), textFieldAnswer.getText(), comboBoxAnswer.getSelectedItem().toString(), comboBoxQuestion.getSelectedItem().toString());
-                Questions.replaceQuestion(index, q);
-                Questions.saveQuestions();
-                workSpace.add(textFieldQuestion);
-                workSpace.add(textFieldAnswer);
-                workSpace.add(comboBoxQuestion);
-                workSpace.add(comboBoxAnswer);
-                workSpace.add(saveButton);
-                
-             }); 
-            } catch (Exception i) {
-               JOptionPane.showMessageDialog(null, "At least one question needs to be added");
-               workSpace.removeAll();
-               createMenu();
+                    textFieldQuestion.setText(Questions.loadQuestion().get(index).getQuestion());
+                    textFieldAnswer.setText(Questions.loadQuestion().get(index).getCorrectAnswer());
+
+                    saveButton.addActionListener(i -> {
+                        Question q = new Question(textFieldQuestion.getText(), textFieldAnswer.getText(), comboBoxAnswer.getSelectedItem().toString(), comboBoxQuestion.getSelectedItem().toString());
+                        Questions.replaceQuestion(index, q);
+                        Questions.saveQuestions();
+                        workSpace.add(textFieldQuestion);
+                        workSpace.add(textFieldAnswer);
+                        workSpace.add(comboBoxQuestion);
+                        workSpace.add(comboBoxAnswer);
+                        workSpace.add(saveButton);    
+                    });
+                    break;
             }
     });
-
         workSpace.add(addEditButton);
     }
 
 
     /**
-     * Table action Performed method (used below in the ButtonColumn)
-     * Add the Button Column to the table
+     * Table action Performed method (used below in the ButtonColumn) <p>
+     * Add the Button Column to the table <p>
      * Remove questions and answers from table 
      */
     private void deleteMenu() {
@@ -234,7 +224,6 @@ public class MainMenu {
         JTable questionsTable = new JTable (Questions.showQuestions(),Arrayquestion); 
         // System.out.println(Questions.getCathegories());
         questionsTable.setRowHeight(32);
-
         questionsTable.addColumn(new TableColumn());
         Action tableButtonAction = new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
