@@ -11,8 +11,7 @@ The workspace de folders, where:
 	- `img`: Images used in the JFrame.
 	- `ui`: User interface & menu classes.
 	- `util`: Auxiliar methods used in the creation of the JFrame.
-    - `main.java`: Main method that **launch the app**. 
-
+- `main`: Main method that **launch the app**. 
 Meanwhile, the compiled output files will be generated in the `bin` folder by default.
 
 

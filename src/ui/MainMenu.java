@@ -222,7 +222,6 @@ public class MainMenu {
     private void deleteMenu() {
         String[] Arrayquestion = {"Question", "Answer"};
         JTable questionsTable = new JTable (Questions.showQuestions(),Arrayquestion); 
-        // System.out.println(Questions.getCathegories());
         questionsTable.setRowHeight(32);
         questionsTable.addColumn(new TableColumn());
         Action tableButtonAction = new AbstractAction() {
